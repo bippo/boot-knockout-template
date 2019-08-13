@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog dbchangelog-3.5.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext dbchangelog-ext.xsd">
+    <changeSet author="sysadmin" id="1469883092506-9"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="employee">
+            <column name="employee_id" type="INT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="employee_name" type="VARCHAR(255)" />
+            <column name="employee_email" type="VARCHAR(255)" />
+            <column name="employee_address" type="VARCHAR(255)" />
+        </createTable>
+        <createTable tableName="product">
+            <column name="product_code" type="VARCHAR(16)">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="product_name" type="VARCHAR(255)" />
+            <column name="unit_of_measure" type="VARCHAR(255)" />
+            <column name="unit_price" type="number(15,2)" />
+        </createTable>
+        <createTable tableName="sales_order">
+            <column autoIncrement="true" name="sales_order_id" type="SERIAL">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="customer_name" type="VARCHAR(255)" />
+            <column name="order_date" type="date" />
+            <column name="total_order" type="number(15,2)" />
+        </createTable>
+        <createTable tableName="sales_order_item">
+            <column autoIncrement="true" name="sales_order_item_id" type="SERIAL">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="sales_order_id" type="int" />
+            <column name="order_qty" type="int" />
+            <column name="unit_price" type="number(15,2)" />
+            <column name="product_code" type="VARCHAR(16)" />
+        </createTable>
+        <addForeignKeyConstraint baseTableName="sales_order_item" baseColumnNames="product_code"
+                                 constraintName="ref_sales_order_item_product" referencedTableName="product"
+                                 referencedColumnNames="product_code" />
+        <addForeignKeyConstraint baseTableName="sales_order_item" baseColumnNames="sales_order_id"
+                                 constraintName="ref_sales_order_id" referencedTableName="sales_order"
+                                 referencedColumnNames="sales_order_id" />
+    </changeSet>
+    <changeSet author="sysadmin" id="1469883092506-10"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <modifyDataType
+                        columnName="employee_id"
+                        newDataType="VARCHAR(128)"
+                        tableName="employee"/>
+    </changeSet>
+</databaseChangeLog>
