@@ -6,5 +6,29 @@
 </head>
 <body>
 Hello world
+
+<section>
+    <h1 data-bind="text: appHeading"></h1>
+    <p>Greeting: <input data-bind="textInput: greeting" /></p>
+    <p>Name: <input data-bind="textInput: name" /></p>
+</section>
+
+<script src="jquery-1.x-git.min.js" ></script>
+<script src="knockout-3.5.0.js" ></script>
+
+<script>
+  var ViewModel = function() {
+    this.greeting = ko.observable("Hello");
+    this.name = ko.observable("World");
+
+    this.appHeading = ko.pureComputed(function() {
+      return this.greeting() + ", " + this.name() + "!";
+    }, this);
+  };
+
+  var appVM = new ViewModel();
+
+  ko.applyBindings(appVM);
+</script>
 </body>
 </html>
